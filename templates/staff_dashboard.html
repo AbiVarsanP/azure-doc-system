@@ -1,4 +1,14 @@
 <h2>Staff Dashboard</h2>
 <p>Welcome Mentor</p>
+
+<h3>Create Student User</h3>
+<form action="/create_student" method="post">
+	<label>Student Email</label>
+	<input type="email" name="email" required />
+	<label>Password</label>
+	<input type="text" name="password" required />
+	<button type="submit">Create Student</button>
+</form>
+
 <a href="/documents">View Student Documents</a>
 <a href="/logout">Logout</a>

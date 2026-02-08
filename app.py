@@ -1,5 +1,12 @@
 from azure.storage.blob import BlobServiceClient
 import os
+from dotenv import load_dotenv
+import logging
+
+# load local .env for development (no effect in Azure App Service)
+load_dotenv()
+
+logging.basicConfig(level=logging.INFO)
 from flask import Flask, render_template, request, redirect, session
 import sqlite3
 
@@ -54,6 +61,29 @@ def dashboard():
         return render_template("staff_dashboard.html")
     else:
         return render_template("student_dashboard.html")
+
+
+@app.route("/create_student", methods=["POST"])
+def create_student():
+    if session.get("role") != "staff":
+        return redirect("/login")
+
+    email = request.form.get("email")
+    password = request.form.get("password")
+    mentor_email = session.get("email")
+
+    if not email or not password:
+        return "Email and password required", 400
+
+    db = get_db()
+    cur = db.cursor()
+    cur.execute(
+        "INSERT INTO students (email, password, mentor_email) VALUES (?, ?, ?)",
+        (email, password, mentor_email),
+    )
+    db.commit()
+
+    return redirect("/dashboard")
     
 @app.route("/upload", methods=["GET", "POST"])
 def upload():
@@ -61,13 +91,22 @@ def upload():
         return redirect("/login")
 
     if request.method == "POST":
-        file = request.files["file"]
-        cert_type = request.form["cert_type"]
+        file = request.files.get("file")
+        cert_type = request.form.get("cert_type")
 
-        blob_client = blob_service.get_blob_client(
-            container=container,
-            blob=file.filename
-        )
+        # quick environment checks to give clearer errors
+        if not container:
+            logging.error("AZURE_CONTAINER environment variable is not set")
+            return "Server misconfigured: AZURE_CONTAINER not set", 500
+
+        if not os.getenv("AZURE_STORAGE_ACCOUNT"):
+            logging.error("AZURE_STORAGE_ACCOUNT environment variable is not set")
+            return "Server misconfigured: AZURE_STORAGE_ACCOUNT not set", 500
+
+        if not file or not getattr(file, 'filename', None):
+            return "No file provided", 400
+
+        blob_client = blob_service.get_blob_client(container=container, blob=file.filename)
         blob_client.upload_blob(file, overwrite=True)
 
         db = get_db()
