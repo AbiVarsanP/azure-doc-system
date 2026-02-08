@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Certificate - Azure Document System{% endblock %}
+
+{% block head %}
+  <style>
+    .upload-card { border:none; border-radius:18px; box-shadow:0 15px 35px rgba(0,0,0,0.1) }
+    .form-control, .form-select { border-radius:10px; padding:12px }
+    .btn-primary { background:#2563eb; border:none; border-radius:10px; padding:12px; font-weight:600 }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card upload-card">
+        <div class="card-header bg-white border-0 text-center pt-4">
+          <i class="bi bi-cloud-upload-fill fs-1 text-primary"></i>
+          <h4 class="fw-bold mt-2">Upload Certificate</h4>
+          <p class="text-muted mb-0">Add a new academic or personal certificate</p>
+        </div>
+
+        <div class="card-body p-4">
+          <form method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+              <label class="form-label fw-semibold"><i class="bi bi-card-text me-1"></i> Certificate Type</label>
+              <input type="text" name="cert_type" class="form-control" placeholder="e.g. Bonafide, Internship, Marksheet" required>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label fw-semibold"><i class="bi bi-paperclip me-1"></i> Select File</label>
+              <input type="file" name="file" class="form-control" required>
+              <div class="form-text">Allowed formats: PDF, JPG, PNG · Max 5MB</div>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <a href="/dashboard" class="btn btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i> Back</a>
+              <button type="submit" class="btn btn-primary"><i class="bi bi-upload me-1"></i> Upload Certificate</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

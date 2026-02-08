@@ -1,13 +1,61 @@
-<h2>Login</h2>
+{% extends "base.html" %}
 
-<form method="post">
-  <select name="role">
-    <option value="staff">Staff</option>
-    <option value="student">Student</option>
-  </select><br><br>
+{% block title %}Login - Azure Document System{% endblock %}
 
-  <input type="email" name="email" placeholder="Email" required><br><br>
-  <input type="password" name="password" placeholder="Password" required><br><br>
+{% block head %}
+<style>
+  .login-wrap { display:flex; align-items:center; justify-content:center; min-height: calc(100vh - 160px); }
+  .login-card { max-width:480px; width:100%; margin:16px; border-radius:14px; background:#fff; box-shadow:0 10px 30px rgba(16,24,40,0.08); overflow:hidden }
+  .login-header { background: linear-gradient(90deg,#0f172a,#0b254a); color:#fff; padding:20px; text-align:center }
+  .login-header i { font-size:2rem; color:#60a5fa }
+  .form-control, .form-select { border-radius:10px; padding:10px }
+  .btn-primary { background:#2563eb; border:none; border-radius:10px; padding:12px 16px; font-weight:600 }
+  .login-card .card-body { padding:28px }
+</style>
+{% endblock %}
 
-  <button type="submit">Login</button>
-</form>
+{% block content %}
+<div class="login-wrap">
+  <div class="card login-card">
+    <div class="login-header">
+      <i class="bi bi-shield-lock-fill"></i>
+      <h4 class="mt-2 mb-0">Secure Login</h4>
+      <small class="text-secondary">Azure Document System</small>
+    </div>
+
+    <div class="card-body p-4">
+      <form method="post">
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold"><i class="bi bi-person-badge me-1"></i> Login As</label>
+          <select name="role" class="form-select" required>
+            <option value="student">Student</option>
+            <option value="staff">Staff</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold"><i class="bi bi-envelope-fill me-1"></i> Email</label>
+          <input type="email" name="email" class="form-control" placeholder="name@domain.com" required>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold"><i class="bi bi-lock-fill me-1"></i> Password</label>
+          <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
+        </div>
+
+        <div class="d-grid mt-4">
+          <button type="submit" class="btn btn-primary">
+            <i class="bi bi-box-arrow-in-right me-1"></i> Login
+          </button>
+        </div>
+
+        <div class="text-center mt-3 form-text">
+          <a href="#" class="text-primary fw-semibold">Forgot password?</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Staffs - Admin{% endblock %}
+
+{% block content %}
+  <h3 class="mb-3">Manage Staffs</h3>
+
+  <div class="card p-4 mb-4">
+    <h5>Create Staff User</h5>
+    <form method="post" action="/admin/create_staff" class="row g-3 mt-2">
+      <div class="col-md-6">
+        <input type="email" name="email" class="form-control" placeholder="staff@college.com" required>
+      </div>
+      <div class="col-md-4">
+        <input type="password" name="password" class="form-control" placeholder="password" required>
+      </div>
+      <div class="col-md-2 d-grid">
+        <button class="btn btn-primary">Create</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card p-4">
+    <h5>Existing Staff</h5>
+    {% set staff_list = [] %}
+    {% for s in (get_staff_list() if get_staff_list is defined else []) %}
+      {% set _ = staff_list.append(s) %}
+    {% endfor %}
+
+    {% if staff_list %}
+      <ul class="list-group">
+        {% for s in staff_list %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>{{ s[1] }}</div>
+            <div>
+              <a href="/admin/staff/{{ s[0] }}" class="btn btn-sm btn-outline-secondary">View</a>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <div class="text-muted">No staff users yet.</div>
+    {% endif %}
+  </div>
+
+{% endblock %}

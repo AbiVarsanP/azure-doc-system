@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - Azure Document System{% endblock %}
+
+{% block content %}
+  <h3 class="mb-3">Profile</h3>
+
+  {% if role == 'student' %}
+    <div class="card p-4">
+      <p><strong>Email:</strong> {{ user[0] if user else 'N/A' }}</p>
+      <p><strong>Mentor:</strong> {{ user[1] if user and user[1] else 'Not assigned' }}</p>
+    </div>
+  {% else %}
+    <div class="card p-4">
+      <p><strong>Staff Email:</strong> {{ user[0] if user else 'N/A' }}</p>
+    </div>
+  {% endif %}
+
+{% endblock %}

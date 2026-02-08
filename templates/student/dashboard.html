@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard - Azure Document System{% endblock %}
+
+{% block head %}
+  <style>
+    .dashboard-header { background: linear-gradient(135deg,#ffffff,#eef2ff); border-radius:16px; padding:30px; box-shadow:0 12px 30px rgba(0,0,0,0.08) }
+    .action-card { border:none; border-radius:14px; box-shadow:0 10px 25px rgba(0,0,0,0.08) }
+    .action-card:hover { transform:translateY(-6px); box-shadow:0 16px 35px rgba(0,0,0,0.12) }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <section class="dashboard-header mb-5">
+    <h2 class="fw-bold mb-2">Welcome, Student 👋</h2>
+    <p class="text-secondary mb-0">Manage and upload your academic certificates securely.</p>
+  </section>
+
+  <section>
+    <div class="row g-4">
+
+      <div class="col-md-4">
+        <div class="card action-card p-4 h-100">
+          <i class="bi bi-cloud-upload-fill fs-1 text-primary mb-3"></i>
+          <h5 class="fw-semibold">Upload Certificate</h5>
+          <p class="text-muted">Upload new certificates securely to Azure Blob Storage.</p>
+          <a href="/upload" class="btn btn-primary mt-auto"><i class="bi bi-upload me-1"></i> Upload Now</a>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card action-card p-4 h-100">
+          <i class="bi bi-folder-fill fs-1 text-success mb-3"></i>
+          <h5 class="fw-semibold">My Documents</h5>
+          <p class="text-muted">View, download, or verify uploaded certificates.</p>
+          <a href="/my-documents" class="btn btn-success mt-auto"><i class="bi bi-folder2-open me-1"></i> View Files</a>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card action-card p-4 h-100">
+          <i class="bi bi-person-circle fs-1 text-warning mb-3"></i>
+          <h5 class="fw-semibold">Profile</h5>
+          <p class="text-muted">View and update your personal and academic information.</p>
+          <a href="/profile" class="btn btn-warning mt-auto text-white"><i class="bi bi-person me-1"></i> View Profile</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+{% endblock %}

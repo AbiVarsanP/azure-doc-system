@@ -1,0 +1,25 @@
+<nav class="navbar navbar-dark navbar-expand-lg shadow-sm fixed-top">
+  <div class="container">
+    <a class="navbar-brand text-white" href="/">
+      <i class="bi bi-cloud-check-fill me-2"></i>
+      Azure Document System
+    </a>
+
+    {% if session.get('email') %}
+    <div class="ms-auto d-flex align-items-center">
+      <span class="navbar-text text-white me-3">{{ session.get('email') }}</span>
+      <a href="/logout" class="btn btn-outline-light btn-sm">Logout</a>
+    </div>
+    {% else %}
+    <div class="ms-auto">
+      {% if request.path == '/login' %}
+        <a href="/" class="btn btn-light btn-sm">Home</a>
+      {% elif request.path == '/' %}
+        <a href="/login" class="btn btn-light btn-sm">Login</a>
+      {% else %}
+        <a href="/login" class="btn btn-light btn-sm">Login</a>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+</nav>
