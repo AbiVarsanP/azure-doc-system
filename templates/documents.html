@@ -1,0 +1,21 @@
+<h2>All Student Documents</h2>
+
+<table border="1">
+<tr>
+  <th>Student</th>
+  <th>Certificate</th>
+  <th>Type</th>
+</tr>
+
+{% for d in docs %}
+<tr>
+  <td>{{ d[1] }}</td>
+  <td>
+    <a href="https://{{ config['AZURE_STORAGE_ACCOUNT'] }}.blob.core.windows.net/certificates/{{ d[2] }}">
+      {{ d[2] }}
+    </a>
+  </td>
+  <td>{{ d[3] }}</td>
+</tr>
+{% endfor %}
+</table>

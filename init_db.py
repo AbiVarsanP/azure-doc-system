@@ -26,6 +26,16 @@ else:
     )
     """)
 
+    cur.execute("""
+    CREATE TABLE documents (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        student_email TEXT,
+        filename TEXT,
+        cert_type TEXT,
+        uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    """)
+
     cur.execute(
         "INSERT INTO staff (email, password) VALUES (?, ?)",
         ("mentor@college.com", "1234"),
