@@ -22,10 +22,18 @@
 
   <div class="card p-4">
     <h5>Existing Students</h5>
-    {% set students_list = [] %}
-    {% for s in (get_students_list() if get_students_list is defined else []) %}
-      {% set _ = students_list.append(s) %}
-    {% endfor %}
+    <div class="mb-3 d-flex justify-content-between">
+      <div>
+        <a href="/admin/students/template" class="btn btn-outline-primary btn-sm">Download Template</a>
+      </div>
+      <div>
+        <form action="/admin/students/import" method="post" enctype="multipart/form-data" class="d-flex">
+          <input type="file" name="file" accept=".csv" class="form-control form-control-sm me-2" required>
+          <button class="btn btn-primary btn-sm">Import</button>
+        </form>
+      </div>
+    </div>
+    {% set students_list = students_list if students_list is defined else [] %}
 
     {% if students_list %}
       <ul class="list-group">

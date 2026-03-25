@@ -4,24 +4,108 @@
 
 {% block content %}
   <h3 class="mb-3">Student Documents</h3>
-
-  {% if docs and docs|length > 0 %}
-    <div class="list-group">
-      {% for d in docs %}
-        <div class="list-group-item d-flex justify-content-between align-items-center">
-          <div>
-            <div class="fw-semibold">{{ d[2] }}</div>
-            <div class="text-muted small">Student: {{ d[1] }} • Type: {{ d[3] }}</div>
-          </div>
-          <div>
-            <a href="#" class="btn btn-outline-primary btn-sm">Download</a>
-            <a href="#" class="btn btn-outline-success btn-sm ms-2">Verify</a>
-          </div>
-        </div>
-      {% endfor %}
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="card p-3">
+        <h6 class="mb-2">Overview</h6>
+        {% if analytics %}
+          <div>Total students: <strong>{{ analytics.total_students }}</strong></div>
+          <div>Total uploads: <strong>{{ analytics.total_uploads }}</strong></div>
+          <div>Avg uploads/student: <strong>{{ analytics.avg_uploads }}</strong></div>
+        {% else %}
+          <div class="text-muted">No analytics available</div>
+        {% endif %}
+      </div>
+      <div class="card p-3 mt-3">
+        <h6 class="mb-2">Top Certificate Types</h6>
+        {% if analytics and analytics.top_cert_types %}
+          <ul class="list-unstyled small">
+            {% for ct, count in analytics.top_cert_types %}
+              <li>{{ ct }} <span class="badge bg-secondary ms-2">{{ count }}</span></li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="text-muted small">No certificates yet.</div>
+        {% endif %}
+      </div>
+      <div class="card p-3 mt-3">
+        <h6 class="mb-2">Summary</h6>
+        {% if analytics and analytics.summary %}
+          <div class="mb-2"><strong>Recent uploads</strong></div>
+          <ul class="small">
+            {% for r in analytics.summary.recent_uploads %}
+              <li>{{ r.student }} — {{ r.filename }} <span class="text-muted">({{ r.uploaded_at }})</span></li>
+            {% endfor %}
+          </ul>
+          <div class="mt-2"><strong>Top filename keywords</strong></div>
+          {% if analytics.summary.top_keywords %}
+            <div class="small mt-1">
+              {% for k, count in analytics.summary.top_keywords %}
+                <span class="badge bg-light text-dark me-1">{{ k }}: {{ count }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="text-muted small">No keywords found.</div>
+          {% endif %}
+        {% else %}
+          <div class="text-muted small">No summary available.</div>
+        {% endif %}
+      </div>
     </div>
-  {% else %}
-    <div class="alert alert-info">No documents uploaded by your students yet.</div>
-  {% endif %}
+
+    <div class="col-md-8">
+      <div class="card p-3 mb-3">
+        <h6 class="mb-3">Student Performance (simple score)</h6>
+        {% if analytics and analytics.students_stats %}
+          <div class="list-group">
+            {% for s in analytics.students_stats %}
+              <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                  <div class="fw-semibold">{{ s.email }}</div>
+                  <div class="text-muted small">Uploads: {{ s.uploads }} • Score: {{ s.score }}%</div>
+                  {% if s.cert_counts %}
+                    <div class="small mt-1">
+                      {% for ct, ccount in s.cert_counts.items() %}
+                        <span class="badge bg-light text-dark me-1">{{ ct }}: {{ ccount }}</span>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                </div>
+                <div class="text-end">
+                  <a href="/staff/manage_documents?student={{ s.email }}" class="btn btn-outline-primary btn-sm">View Docs</a>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="alert alert-info">No students mapped or no uploads yet.</div>
+        {% endif %}
+      </div>
+
+      <div class="card p-3">
+        <h6 class="mb-3">All Documents</h6>
+        {% if docs and docs|length > 0 %}
+          <div class="list-group">
+            {% for d in docs %}
+              <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                  <div class="fw-semibold">{{ d[2] }}</div>
+                  <div class="text-muted small">Student: {{ d[1] }} • Type: {{ d[3] }}</div>
+                </div>
+                <div>
+                  <a href="/documents/download/{{ d[0] }}" class="btn btn-outline-primary btn-sm">Download</a>
+                  <form action="/documents/verify/{{ d[0] }}" method="post" class="d-inline ms-2">
+                    <button class="btn btn-outline-success btn-sm">Verify</button>
+                  </form>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="alert alert-info">No documents uploaded by your students yet.</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
 
 {% endblock %}
