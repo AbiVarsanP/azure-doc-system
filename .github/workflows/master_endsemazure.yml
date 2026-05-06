@@ -63,4 +63,4 @@ jobs:
         with:
           app-name: 'EndSemAzure'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0479B733C6F4431890D2D07C059CF1D7 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_161D6FD474FF4941BE6E3761E2C12F8C }}
